@@ -2,16 +2,14 @@
 <html>
 	<head xmlns:th="http://www.thymeleaf.org">
 		<meta charset="UTF-8">
+		<meta lang="en">
 		<title>employeeManagement - list of employees</title>
 	</head>
-	
 	<body>
 		<h3>User: <span th:text="${user.name}"></span> </h3>
 		<p>Password: <span th:text="${user.password}"></span> </p>
-	
 		<h1>List of employees</h1>
-		
-		<table>
+		<table border=1>
 			<thead>
 				<tr>
 					<th> ID <th> Surname <th> Name <th> Position <th> Salary
@@ -31,7 +29,5 @@
 				</tr>
 			</tbody>
 		</table>
-	
 	</body>
-
 </html>

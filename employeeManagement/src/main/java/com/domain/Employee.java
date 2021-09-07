@@ -2,23 +2,35 @@ package com.domain;
 
 public class Employee {
 	public Employee(String name, String surname, String position) {
-		id = previousID++;
+		id = counter++;
 		this.name = name;
 		this.surname = surname;
 		this.position = position;
 		
-		//TODO canviar a switch?
-		if (position.equals("Junior")) salary = 1500;
-		else if (position.equals("Mid")) salary = 1900;
-		else if (position.equals("Senior")) salary = 2400;
-		else if (position.equals("TeamManager")) salary = 2900;
-		else if (position.equals("Boss")) salary = 5400;
-		//TODO else throws exception
+		switch (position) {
+			case "Junior":
+				salary = 1500;
+				break;
+			case "Mid":
+				salary = 1900;
+				break;
+			case "Senior":
+				salary = 2400;
+				break;
+			case "Team Manager":
+				salary = 2900;
+				break;
+			case "Boss":
+				salary = 5400;
+				break;
+			default:
+				//throws Exception(); //TODO
+			}
 	}
 	
 	
 	private int id;
-	private int previousID = 0;
+	private static int counter = 1;
 	private String name;
 	private String surname;
 	private double salary;

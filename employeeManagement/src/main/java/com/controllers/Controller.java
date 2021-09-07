@@ -30,8 +30,10 @@ public class Controller {
 			
 			ArrayList<Employee> employees = db.getEmployees();
 			
+			//makes available for the html consulting template the following variables
 			model.addAttribute("title", "employeeManagement - Employees login");
 			model.addAttribute("user", user);
+			model.addAttribute("employees", employees);
 			
 			return "consulting";
 			
