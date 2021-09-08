@@ -28,16 +28,17 @@ public class Controller {
 	//returns the mapping result, changing to consulting.html if the credentials are correct or staying on login.html if not
 	@PostMapping("/")
 	public String login(User user, Model model) {
-		if (user.getName().equals("andreu") && user.getPassword().equals("pass")) { //TODO check this data with a list
+		if (user.getName().equals("andreu") && user.getPassword().equals("pass")) { //TODO check this data using a list
 			
 			this.user=user;
 			
 			ArrayList<Employee> employees = db.getEmployees();
 			
-			//makes available for the html consulting template the following variables
 			model.addAttribute("title", "employeeManagement - Employees login");
 			model.addAttribute("user", user);
 			model.addAttribute("employees", employees);
+			model.addAttribute("action", "/insert");
+			model.addAttribute("boton", "Insert Employee");
 			
 			return "consulting";
 			
@@ -52,6 +53,8 @@ public class Controller {
 		ArrayList<Employee> employees = db.getEmployees();
 		model.addAttribute("user", this.user);
 		model.addAttribute("employees", employees);
+		model.addAttribute("action", "/insert");
+		model.addAttribute("boton", "Insert Employee");
 		return "consulting";
 	}
 	
@@ -61,7 +64,37 @@ public class Controller {
 		ArrayList<Employee> employees = db.getEmployees();
 		model.addAttribute("employees", employees);
 		model.addAttribute("user", this.user);
-		model.addAttribute("boton", "insert user");
+		model.addAttribute("boton", "Insert Employee");
+		model.addAttribute("action", "/insert");
+		return "consulting";
+	}
+	
+	@GetMapping("/modify/{id}")
+	public String modify(@PathVariable int id, Model model) {
+		Employee employee = db.getEmployee(id);
+		Integer idEmployee = employee.getId(); //TODO TOQC
+		ArrayList<Employee> employees = db.getEmployees();
+		model.addAttribute("employees", employees);
+		model.addAttribute("employee", employee);
+		model.addAttribute("idEmployee", idEmployee); //TODO TOQC
+		model.addAttribute("user", this.user);
+		model.addAttribute("boton", "Modify Employee");
+		model.addAttribute("action", "/modify");
+		return "consulting";
+	}
+	
+	@PostMapping("/modify")
+	public String sendModification(Employee employee, Model model) {
+		
+		int idEmployee = (int) model.getAttribute("idEmployee"); //TODO TOQC
+		employee.setId(idEmployee); //TODO TOQC
+		
+		db.modifyEmployee(employee);
+		ArrayList<Employee> employees = db.getEmployees();
+		model.addAttribute("user", this.user);
+		model.addAttribute("employees", employees);
+		model.addAttribute("employee", null);
+		model.addAttribute("boton", "Insert Employee");
 		model.addAttribute("action", "/insert");
 		return "consulting";
 	}

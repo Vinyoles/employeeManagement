@@ -12,7 +12,7 @@
 		<table border=1>
 			<thead>
 				<tr>
-					<th> ID <th> Surname <th> Name <th> Position <th> Salary <th> Delete Entry
+					<th> ID <th> Surname <th> Name <th> Position <th> Salary <th> Modify <th> Delete Entry
 				</tr>
 			</thead>
 			<tbody>
@@ -26,17 +26,18 @@
 					<td> <span th:text="${employee.name}"> </span> </td>
 					<td> <span th:text="${employee.position}"> </span> </td>
 					<td> <span th:text="${employee.salary}"> </span> </td>
+					<td> <a th:href="@{/modify/} + ${employee.id}"> modify </a> </td>
 					<td> <a th:href="@{/delete/} + ${employee.id}"> delete </a> </td>
 				</tr>
 			</tbody>
 		</table>
-		<form action="/insert" method="post">
+		<form th:action="${action}" method="post">
 			<br>
-			Name: <input type="text" name="name">
-			Surname: <input type="text" name="surname">
+			Name: <input type="text" name="name" th:value="${employee?.name}">
+			Surname: <input type="text" name="surname" th:value="${employee?.surname}">
 			<br><br>
-			Position: <input type="text" name="position">
-			<input type="submit" name="submit" value="insert new employee">
+			Position: <input type="text" name="position" th:value="${employee?.position}">
+			<input type="submit" name="submit" th:value="${boton}">
 		</form>
 	</body>
 </html>
