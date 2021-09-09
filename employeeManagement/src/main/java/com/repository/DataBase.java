@@ -4,20 +4,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.domain.Employee;
+import com.domain.Position;
 
 public class DataBase {
 	
 	ArrayList<Employee> employees = new ArrayList<Employee>();
+	
 	public DataBase() {
-		employees.add(new Employee("Andreu", "Vinyoles", "Mid"));
-		employees.add(new Employee("Eduard", "Lara", "Boss"));
-		employees.add(new Employee("Bernat", "", "Mid")); //TODO
-		employees.add(new Employee("Mustafà", "", "Junior")); //TODO
-		employees.add(new Employee("Lara", "", "Team Manager")); //TODO
-		employees.add(new Employee("Jordi", "Albiol", "Senior"));
-		employees.add(new Employee("Roger", "Torrent", "Senior")); //TODO
-		employees.add(new Employee("Gabriel", "", "Junior")); //TODO
+		employees.add(new Employee("Andreu", "Vinyoles", Position.Mid));
+		employees.add(new Employee("Eduard", "Lara", Position.Boss));
+		employees.add(new Employee("Bernat", "", Position.Mid)); //TODO
+		employees.add(new Employee("Mustafà", "", Position.Junior)); //TODO
+		employees.add(new Employee("Lara", "", Position.TeamManager)); //TODO
+		employees.add(new Employee("Jordi", "Albiol", Position.Senior));
+		employees.add(new Employee("Roger", "Torrent", Position.Senior));
+		employees.add(new Employee("Iván", "", Position.Junior)); //TODO
+		employees.add(new Employee("Gabriel", "", Position.Junior)); //TODO
 	}
+	
 	
 	public void insertNewEmployee(Employee employee) {
 		employees.add(employee);
@@ -67,6 +71,4 @@ public class DataBase {
 	public void setEmployees(ArrayList<Employee> employees) {
 		this.employees = employees;
 	}
-
-
 }

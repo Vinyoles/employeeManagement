@@ -31,12 +31,18 @@
 				</tr>
 			</tbody>
 		</table>
-		<form th:action="${action}" method="post">
+		<form th:action="${action}" th:object="${employee}" method="post">
 			<br>
 			Name: <input type="text" name="name" th:value="${employee?.name}">
 			Surname: <input type="text" name="surname" th:value="${employee?.surname}">
 			<br><br>
-			Position: <input type="text" name="position" th:value="${employee?.position}">
+			Position: 
+				<select th:field="*{position}">
+					<option th:each="position :${T(com.domain.Position).values()}"
+						th:value="${position}"
+						th:text="${position.name}">
+					</option>
+				</select>
 			<input type="submit" name="submit" th:value="${boton}">
 		</form>
 	</body>

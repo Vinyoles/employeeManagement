@@ -13,7 +13,7 @@ import com.repository.DataBase;
 import com.domain.Employee;
 
 @org.springframework.stereotype.Controller //TODO comparar amb la Lara, en principi el org era un import i el controller anava sol
-@RequestMapping("")
+@RequestMapping("") //localhost:8080
 public class Controller {
 	
 	DataBase db = new DataBase();
@@ -29,17 +29,14 @@ public class Controller {
 	@PostMapping("/")
 	public String login(User user, Model model) {
 		if (user.getName().equals("andreu") && user.getPassword().equals("pass")) { //TODO check this data using a list
-			
 			this.user=user;
-			
 			ArrayList<Employee> employees = db.getEmployees();
-			
 			model.addAttribute("title", "employeeManagement - Employees login");
 			model.addAttribute("user", user);
 			model.addAttribute("employees", employees);
 			model.addAttribute("action", "/insert");
 			model.addAttribute("boton", "Insert Employee");
-			
+			model.addAttribute("employee", new Employee()); //TODO combobox
 			return "consulting";
 			
 		} else {
@@ -55,6 +52,7 @@ public class Controller {
 		model.addAttribute("employees", employees);
 		model.addAttribute("action", "/insert");
 		model.addAttribute("boton", "Insert Employee");
+		model.addAttribute("employee", new Employee()); //TODO combobox
 		return "consulting";
 	}
 	
@@ -66,29 +64,27 @@ public class Controller {
 		model.addAttribute("user", this.user);
 		model.addAttribute("boton", "Insert Employee");
 		model.addAttribute("action", "/insert");
+		model.addAttribute("employee", new Employee()); //TODO combobox
 		return "consulting";
 	}
 	
 	@GetMapping("/modify/{id}")
 	public String modify(@PathVariable int id, Model model) {
 		Employee employee = db.getEmployee(id);
-		Integer idEmployee = employee.getId(); //TODO TOQC
 		ArrayList<Employee> employees = db.getEmployees();
 		model.addAttribute("employees", employees);
 		model.addAttribute("employee", employee);
-		model.addAttribute("idEmployee", idEmployee); //TODO TOQC
 		model.addAttribute("user", this.user);
 		model.addAttribute("boton", "Modify Employee");
-		model.addAttribute("action", "/modify");
+		model.addAttribute("action", "/modify/value/" + id);
+		model.addAttribute("employee", new Employee()); //TODO combobox
 		return "consulting";
 	}
 	
-	@PostMapping("/modify")
-	public String sendModification(Employee employee, Model model) {
-		
-		int idEmployee = (int) model.getAttribute("idEmployee"); //TODO TOQC
-		employee.setId(idEmployee); //TODO TOQC
-		
+	@PostMapping("/modify/value/{id}")
+	public String sendModification(@PathVariable int id, Employee employee, Model model) {
+		employee.setId(id);
+		Employee.setCounter(Employee.getCounter()-1);
 		db.modifyEmployee(employee);
 		ArrayList<Employee> employees = db.getEmployees();
 		model.addAttribute("user", this.user);
@@ -96,6 +92,7 @@ public class Controller {
 		model.addAttribute("employee", null);
 		model.addAttribute("boton", "Insert Employee");
 		model.addAttribute("action", "/insert");
+		model.addAttribute("employee", new Employee()); //TODO combobox
 		return "consulting";
 	}
 }

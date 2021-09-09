@@ -1,32 +1,34 @@
 package com.domain;
 
 public class Employee {
-	public Employee(String name, String surname, String position) {
+	
+	public Employee(String name, String surname, Position position) {
 		id = counter++;
 		this.name = name;
 		this.surname = surname;
 		this.position = position;
 		
 		switch (position) {
-			case "Junior":
-				salary = 1500;
-				break;
-			case "Mid":
-				salary = 1900;
-				break;
-			case "Senior":
-				salary = 2400;
-				break;
-			case "Team Manager":
-				salary = 2900;
-				break;
-			case "Boss":
-				salary = 5400;
-				break;
-			default:
-				//throws Exception(); //TODO
-			}
+		case Junior:
+			salary = 1500;
+			break;
+		case Mid:
+			salary = 1900;
+			break;
+		case Senior:
+			salary = 2400;
+			break;
+		case TeamManager:
+			salary = 2900;
+			break;
+		case Boss:
+			salary = 5400;
+			break;
+		default:
+			//throws Exception(); //TODO
+		}
 	}
+	public Employee(){}
 	
 	
 	private int id;
@@ -34,10 +36,7 @@ public class Employee {
 	private String name;
 	private String surname;
 	private double salary;
-//	private enum position {
-//		Junior, Mid, Senior, TeamManager, Boss;
-//	}
-	private String position;
+	private Position position;
 	
 	
 	
@@ -65,11 +64,16 @@ public class Employee {
 	public void setSalary(double salary) {
 		this.salary = salary;
 	}
-	public String getPosition() {
+	public Position getPosition() {
 		return position;
 	}
-	public void setPosition(String position) {
+	public void setPosition(Position position) {
 		this.position = position;
 	}
-
+	public static int getCounter() {
+		return counter;
+	}
+	public static void setCounter(int counter) {
+		Employee.counter = counter;
+	}
 }
