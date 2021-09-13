@@ -12,7 +12,7 @@ import com.domain.User;
 import com.repository.DataBase;
 import com.domain.Employee;
 
-@org.springframework.stereotype.Controller //TODO comparar amb la Lara, en principi el org era un import i el controller anava sol
+@org.springframework.stereotype.Controller //TODO works but strange
 @RequestMapping("") //localhost:8080
 public class Controller {
 	
