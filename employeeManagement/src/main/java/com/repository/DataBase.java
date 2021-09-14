@@ -1,74 +1,138 @@
 package com.repository;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.domain.Employee;
 import com.domain.Position;
 
 public class DataBase {
 	
-	ArrayList<Employee> employees = new ArrayList<Employee>();
+	private Connection connection;
 	
 	public DataBase() {
-		employees.add(new Employee("Andreu", "Vinyoles", Position.Mid));
-		employees.add(new Employee("Eduard", "Lara", Position.Boss));
-		employees.add(new Employee("Bernat", "", Position.Mid)); //TODO
-		employees.add(new Employee("Mustafà", "", Position.Junior)); //TODO
-		employees.add(new Employee("Lara", "", Position.TeamManager)); //TODO
-		employees.add(new Employee("Jordi", "Albiol", Position.Senior));
-		employees.add(new Employee("Roger", "Torrent", Position.Senior));
-		employees.add(new Employee("Iván", "", Position.Junior)); //TODO
-		employees.add(new Employee("Gabriel", "", Position.Junior)); //TODO
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String conex = "jdbc:mysql://54.38.34.13:3306/admin_employees_online";
+			this.connection = DriverManager.getConnection(conex, "admin_employees", "");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
+	public void insert(Employee employee) {
+		String query = "INSERT INTO employees (name, surname, position, salary)"
+				+ " VALUES (?, ?, ?, ?)";
+		try {
+			PreparedStatement preparedStmt;
+			preparedStmt = connection.prepareStatement(query);
+			preparedStmt.setString(1, employee.getName());
+			preparedStmt.setString(2, employee.getSurname());
+			preparedStmt.setString(3, employee.getPosition().toString());
+			
+			//calculates the salary from the position
+			Position position = employee.getPosition();
+			double salary = Employee.setSalaryFromPosition(position);
+			preparedStmt.setDouble(4, salary);
+			preparedStmt.executeUpdate();
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
 	
-	public void insertNewEmployee(Employee employee) {
-		employees.add(employee);
+	public void delete(int id) {
+		String query = "DELETE FROM employees WHERE id_employee=" + id;
+		try {
+			PreparedStatement preparedStmt = connection.prepareStatement(query);
+			preparedStmt.executeUpdate();
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+	
+	public void modify (Employee employee) { //TODO the name of the employees has to be inputted manually again
+		String query = "UPDATE employees SET name=?, surname=?, position=?, salary=? WHERE id_employee=?";
+		try {
+			PreparedStatement preparedStmt = connection.prepareStatement(query);
+			preparedStmt.setString(1, employee.getName());
+			preparedStmt.setString(2, employee.getSurname());
+			preparedStmt.setString(3, employee.getPosition().toString());
+			
+			//calculates the salary from the position
+			Position position = employee.getPosition();
+			double salary = Employee.setSalaryFromPosition(position);
+			preparedStmt.setDouble(4, salary);
+			
+			preparedStmt.setInt(5, employee.getId());
+			preparedStmt.executeUpdate();
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
 	}
 	
 	public Employee getEmployee(int id) {
 		Employee employee = null;
-		Iterator<Employee> iterator = employees.iterator();
-		while (iterator.hasNext()) {
-			employee = iterator.next();
-			if (employee.getId() == id) {
-				break;
-			}
-		}		
+		try {
+			Statement statement = connection.createStatement();
+			String query = "SELECT * FROM employees WHERE id_employee=" + id;
+			statement.execute(query);
+			ResultSet rs = statement.getResultSet();
+			rs.next();
+			employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), Position.valueOf(rs.getString(4)), rs.getDouble(5));
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
 		return employee;
 	}
 	
-	public void deleteEmployee(int id) {
-		Iterator<Employee> iterator = employees.iterator();
-		while (iterator.hasNext()) {
-			Employee employee = iterator.next();
-			if (employee.getId() == id) {
-				iterator.remove();
-				break;
+	public ArrayList<Employee> getEmployees(){
+		ArrayList<Employee> employeeList = new ArrayList<Employee>();
+		try {
+			Statement statement = connection.createStatement();
+			String query = "SELECT * FROM employees";
+			statement.execute(query);
+			ResultSet rs = statement.getResultSet();
+			while (rs.next()) {
+				Employee employee = new Employee (rs.getInt(1), rs.getString(2), rs.getString(3), Position.valueOf(rs.getString(4)), rs.getDouble(5));
+				employeeList.add(employee);
 			}
 		}
-	}
-	
-	public void modifyEmployee(Employee employeeForm) {
-		Iterator<Employee> iterator = employees.iterator();
-		while (iterator.hasNext()) {
-			Employee employeeSearch = iterator.next();
-			if (employeeSearch.getId() == employeeForm.getId()) {
-				employeeSearch.setName(employeeForm.getName());
-				employeeSearch.setSurname(employeeForm.getSurname());
-				employeeSearch.setPosition(employeeForm.getPosition());
-				break;
-			}
+		catch (SQLException ex) {
+			System.out.println(ex.getMessage());
 		}
+		return employeeList;
 	}
 	
-	
-	
-	public ArrayList<Employee> getEmployees() {
-		return employees;
-	}
-	public void setEmployees(ArrayList<Employee> employees) {
-		this.employees = employees;
+	public boolean verifyUser(String user, String password) {
+		boolean check = false;
+		try {
+			Statement statement = connection.createStatement();
+			String query = "SELECT COUNT(*) FROM users WHERE user_name='" + user + "' AND password='" + password + "'";
+			statement.execute(query);
+			ResultSet rs = statement.getResultSet();
+			rs.next();
+			if (rs.getInt(1)>0) check = true;
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+		return check;
 	}
 }
+
+
+
+
+
+
+

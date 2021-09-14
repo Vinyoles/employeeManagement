@@ -24,16 +24,14 @@ public class Employee {
 		case Boss:
 			salary = 5400;
 			break;
-		default:
-			//throws Exception(); //TODO
 		}
 	}
 	public Employee(){}
-	public Employee(int id, String name, String surname, String position, double salary){
+	public Employee(int id, String name, String surname, Position position, double salary){
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
-		this.position = Position.valueOf(position);
+		this.position = position;
 		this.salary = salary;
 	}
 	
@@ -46,6 +44,32 @@ public class Employee {
 	private String surname;
 	private double salary;
 	private Position position;
+	
+	
+	
+	
+	public static double setSalaryFromPosition(Position position) {
+		double salaryFromPosition = 0;
+		switch (position) {
+		case Junior:
+			salaryFromPosition = 1500;
+			break;
+		case Mid:
+			salaryFromPosition = 1900;
+			break;
+		case Senior:
+			salaryFromPosition = 2400;
+			break;
+		case TeamManager:
+			salaryFromPosition = 2900;
+			break;
+		case Boss:
+			salaryFromPosition = 5400;
+			break;
+		}	
+		return salaryFromPosition;
+	}
+	
 	
 	
 	

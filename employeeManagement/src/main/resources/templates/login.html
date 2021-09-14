@@ -12,5 +12,10 @@
 			Password: <input type="password" name="password"><br><br>
 			<input type="submit" name="submit" value="Login">
 		</form>
+		
+		<div>
+			<span th:if="${failed == true}"> User or password incorrect. Please try user: <b>letme</b> Password: <b>in</b> ;) </span>
+		</div>
+		
 	</body>	
 </html>
