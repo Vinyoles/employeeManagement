@@ -17,8 +17,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<!-- span th:if="${employees.empty}"> <td colspan="3">Employee list not available</td> </span --> <!-- lambdes vàlides a partir del thymeleave 3.0 -->
-					<span th:if="${#lists.isEmpty(employees)}"> <td colspan="3">Employee list not available</td> </span>
+					<span th:if="${#lists.isEmpty(employees)}"> <td colspan="7">Employee list not available</td> </span>
 				</tr>
 				<tr th:each="employee:${employees}">
 					<td> <span th:text="${employee.id}"> </span> </td>

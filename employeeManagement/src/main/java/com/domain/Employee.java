@@ -29,6 +29,15 @@ public class Employee {
 		}
 	}
 	public Employee(){}
+	public Employee(int id, String name, String surname, String position, double salary){
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.position = Position.valueOf(position);
+		this.salary = salary;
+	}
+	
+	
 	
 	
 	private int id;

@@ -17,8 +17,8 @@ public class DataBase2 {
 	public DataBase2() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String conex = "jdbc:mysql:54.38.34.13/admin_employees_online";
-			this.connection = DriverManager.getConnection(conex, "admin_employees", "");
+			String conex = "jdbc:mysql://54.38.34.13:3306/admin_employees_online";
+			this.connection = DriverManager.getConnection(conex, "admin_employees", "lNbOUopApA");
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -34,8 +34,8 @@ public class DataBase2 {
 			preparedStmt.setInt(1, employee.getId()); //TODO id should be set by autoincrement
 			preparedStmt.setString(2, employee.getName());
 			preparedStmt.setString(3, employee.getSurname());
-			preparedStmt.setString(4, employee.getPosition()); //TODO how to set enum?
-			preparedStmt.setDouble(4, employee.getSalary()); //TODO salary from position
+			preparedStmt.setString(4, employee.getPosition().toString()); //TODO how to set enum?
+			preparedStmt.setDouble(5, employee.getSalary()); //TODO salary from position
 			preparedStmt.executeUpdate();
 		}
 		catch (SQLException ex) {
@@ -60,7 +60,7 @@ public class DataBase2 {
 			PreparedStatement preparedStmt = connection.prepareStatement(query);
 			preparedStmt.setString(1, employee.getName());
 			preparedStmt.setString(2, employee.getSurname());
-			preparedStmt.setString(3, employee.getPosition()); //TODO set enum
+			preparedStmt.setString(3, employee.getPosition().toString()); //TODO set enum
 			preparedStmt.setDouble(4, employee.getSalary());
 			preparedStmt.setDouble(5, employee.getId());
 			System.out.println(preparedStmt.toString()); //TODO cal?
@@ -106,6 +106,27 @@ public class DataBase2 {
 		return employeeList;
 	}
 	
-	//TODO continuar amb el mètode per comprovar l'usuari (38)
+	public boolean verifyUser(String user, String password) {
+		boolean check = false;
+		try {
+			Statement statement = connection.createStatement();
+			String query = "SELECT COUNT(*) FROM users WHERE user_name='" + user + "' AND password='" + password + "'";
+			statement.execute(query);
+			ResultSet rs = statement.getResultSet();
+			rs.next();
+			if (rs.getInt(1)>0) check = true;
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+		return check;
+	}
 
 }
+
+
+
+
+
+
+
