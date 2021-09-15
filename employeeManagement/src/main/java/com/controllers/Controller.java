@@ -77,7 +77,6 @@ public class Controller {
 		model.addAttribute("user", this.user);
 		model.addAttribute("boton", "Modify Employee");
 		model.addAttribute("action", "/modify/value/" + id);
-		model.addAttribute("employee", new Employee());
 		return "consulting";
 	}
 	

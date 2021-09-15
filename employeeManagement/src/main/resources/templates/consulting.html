@@ -49,17 +49,17 @@
 		<section class="database__form">
 			<form th:action="${action}" th:object="${employee}" method="post">
 				<div>
-					Name: <input type="text" name="name" th:value="${employee?.name}">
+					Name: <input type="text" name="name" th:value="${employee?.name}" class="database__form-entry">
 				</div>
 				<div>
-					Surname: <input type="text" name="surname" th:value="${employee?.surname}">
+					Surname: <input type=text name=surname th:value="${employee?.surname}" class="database__form-entry">
 				</div>
 				<div>
 					Position: 
-					<select th:field="*{position}" class="database__form-enum">
+					<select th:field="*{position}" class="database__form-entry">
 						<option th:each="position :${T(com.domain.Position).values()}"
 							th:value="${position}"
-							th:text="${position.name}" class="database__form-enum">
+							th:text="${position.name}" class="database__form-entry">
 						</option>
 					</select>
 				</div>

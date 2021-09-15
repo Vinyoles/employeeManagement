@@ -181,7 +181,15 @@ h3 {font-size: var(--fs-h3);}
 	height: 2em;
 }
 
-.database__form-enum {
+@media(min-width: 1000px){
+	.database__form form {
+		width: 90%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.database__form-entry {
 	font-family: var(--ff-primary);
 	font-size: var(--fs-body);
 }
