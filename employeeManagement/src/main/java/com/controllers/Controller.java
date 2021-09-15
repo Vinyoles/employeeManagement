@@ -40,7 +40,7 @@ public class Controller {
 			
 		} else {
 			model.addAttribute("failed", true);
-			return "login";
+			return "login";  
 		}
 	}
 	

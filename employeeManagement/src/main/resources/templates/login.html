@@ -4,18 +4,33 @@
 		<meta charset="UTF-8">
 		<meta lang="en">
 		<title th:text="${title}"></title>
+		
+		<!-- custom style sheet -->
+		<link rel="stylesheet" href="/style.css">
+		
+		<!-- google fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;900&family=Source+Sans+Pro:wght@300;900&display=swap" rel="stylesheet">
+		
 	</head>
 	<body>
-		<h1>Login to the platform</h1>
-		<form action="/" method="post">
-			Login: <input type="text" name="name"><br><br>
-			Password: <input type="password" name="password"><br><br>
-			<input type="submit" name="submit" value="Login">
-		</form>
+		<section class="login__title">
+			<h1>Login to the platform</h1>
+		</section>
 		
-		<div>
-			<span th:if="${failed == true}"> User or password incorrect. Please try user: <b>letme</b> Password: <b>in</b> ;) </span>
-		</div>
-		
+		<section class="login__form">
+			<form action="/" method="post">
+				<div class="login__input">
+					User: <input type="text" name="name"><br>
+					Password: <input type="password" name="password"><br>
+				</div>
+				<input type="submit" name="submit" value="Login" class="btn">
+			</form>
+			
+			<div class="login__error-msg">
+				<p th:if="${failed == true}"> User or password incorrect. Please try: <span> user: <b>letme</b> </span> <span> Password: <b>in</b> </span> ;) </p>
+			</div>
+		</section>
 	</body>	
 </html>

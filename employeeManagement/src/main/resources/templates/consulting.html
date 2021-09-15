@@ -4,45 +4,67 @@
 		<meta charset="UTF-8">
 		<meta lang="en">
 		<title>employeeManagement - list of employees</title>
+		
+		<!-- custom style sheet -->
+		<link rel="stylesheet" href="/style.css">
+		
+		<!-- google fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;900&family=Source+Sans+Pro:wght@300;900&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<h3>User: <span th:text="${user.name}"></span> </h3>
-		<p>Password: <span th:text="${user.password}"></span> </p>
-		<h1>List of employees</h1>
-		<table border=1>
-			<thead>
-				<tr>
-					<th> ID <th> Surname <th> Name <th> Position <th> Salary <th> Modify <th> Delete Entry
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<span th:if="${#lists.isEmpty(employees)}"> <td colspan="7">Employee list not available</td> </span>
-				</tr>
-				<tr th:each="employee:${employees}">
-					<td> <span th:text="${employee.id}"> </span> </td>
-					<td> <span th:text="${employee.surname}"> </span> </td>
-					<td> <span th:text="${employee.name}"> </span> </td>
-					<td> <span th:text="${employee.position}"> </span> </td>
-					<td> <span th:text="${employee.salary}"> </span> </td>
-					<td> <a th:href="@{/modify/} + ${employee.id}"> modify </a> </td>
-					<td> <a th:href="@{/delete/} + ${employee.id}"> delete </a> </td>
-				</tr>
-			</tbody>
-		</table>
-		<form th:action="${action}" th:object="${employee}" method="post">
-			<br>
-			Name: <input type="text" name="name" th:value="${employee?.name}">
-			Surname: <input type="text" name="surname" th:value="${employee?.surname}">
-			<br><br>
-			Position: 
-				<select th:field="*{position}">
-					<option th:each="position :${T(com.domain.Position).values()}"
-						th:value="${position}"
-						th:text="${position.name}">
-					</option>
-				</select>
-			<input type="submit" name="submit" th:value="${boton}">
-		</form>
+		<section class="database__header">
+			<h1>List of employees</h1>
+			<div class="database__user-data">
+				<h3>User: <span th:text="${user.name}"></span> </h3>
+				<p>Password: <span th:text="${user.password}"></span> </p>
+			</div>
+		</section>
+		
+		<section class="database__result">
+			<table>
+				<thead class="database__result__head">
+					<tr>
+						<th> ID <th> Surname <th> Name <th> Position <th> Salary <th> Modify <th> Delete Entry
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<span th:if="${#lists.isEmpty(employees)}"> <td colspan="7" class="login__error-msg">Employee list not available</td> </span>
+					</tr>
+					<tr th:each="employee:${employees}">
+						<td> <span th:text="${employee.id}"> </span> </td>
+						<td> <span th:text="${employee.surname}"> </span> </td>
+						<td> <span th:text="${employee.name}"> </span> </td>
+						<td> <span th:text="${employee.position.name}"> </span> </td>
+						<td> <span th:text="${employee.salary}"> </span> </td>
+						<td> <a th:href="@{/modify/} + ${employee.id}" class="text__clickable" > modify </a> </td>
+						<td> <a th:href="@{/delete/} + ${employee.id}" class="text__clickable"> delete </a> </td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+		
+		<section class="database__form">
+			<form th:action="${action}" th:object="${employee}" method="post">
+				<div>
+					Name: <input type="text" name="name" th:value="${employee?.name}">
+				</div>
+				<div>
+					Surname: <input type="text" name="surname" th:value="${employee?.surname}">
+				</div>
+				<div>
+					Position: 
+					<select th:field="*{position}" class="database__form-enum">
+						<option th:each="position :${T(com.domain.Position).values()}"
+							th:value="${position}"
+							th:text="${position.name}" class="database__form-enum">
+						</option>
+					</select>
+				</div>
+				<div> <input type="submit" name="submit" th:value="${boton}" class="btn"> </div>
+			</form>
+		</section>
 	</body>
 </html>
